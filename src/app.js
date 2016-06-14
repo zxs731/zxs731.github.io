@@ -7,6 +7,7 @@ var HelloWorldLayer = cc.Layer.extend({
     leftWheel:0,
     rightWheel:0,
     wheel:0,
+    up:1,
     ctor:function () {
         //////////////////////////////
         // 1. super init first
@@ -49,6 +50,45 @@ var HelloWorldLayer = cc.Layer.extend({
         this.addChild(helloLabel, 5);
 */
         // add "HelloWorld" splash screen"
+        //button
+        var btn = new ccui.CheckBox();
+        btn.setTouchEnabled(true);
+        //btn.setPressedActionEnabled(false);
+        btn.loadTextures(res.Up,"","");
+        btn.x = 100;
+        btn.y = 100;
+        var self=this;
+        /*
+        btn.addClickEventListener(function(){
+            self.up=(-1)*self.up;
+
+            cc.log(self.up);
+        },this);
+        */
+        btn.addEventListener(function (sender, type) {
+
+          switch (type) {
+              case ccui.CheckBox.EVENT_SELECTED:
+              self.up=(-1)*self.up;
+                  //this._topDisplayText.setString("Selected");
+                  cc.log("checkbox select");
+                  //this.image.setVisible(true);
+                  cc.log(self.image);
+                  break;
+              case ccui.CheckBox.EVENT_UNSELECTED:
+              self.up=(-1)*self.up;
+                  //this._topDisplayText.setString("Unselected");
+                  cc.log("checkbox unselect");
+                 // this.image.setVisible(false);
+                  cc.log(self.image);
+                  break;
+  
+              default:
+                  break;
+          }
+      }, this);
+
+        this.addChild(btn);
 
         //road
         this.road = new cc.Sprite(res.Road_png);
@@ -102,7 +142,7 @@ var HelloWorldLayer = cc.Layer.extend({
     },
     getAngle:function(dy,dx){
         var s=dy/dx;
-        cc.log(s);
+        //cc.log(s);
 
     },
     onEnter:function () {
@@ -123,8 +163,8 @@ var HelloWorldLayer = cc.Layer.extend({
                 };
                 
                 
-                cc.log(touchPosDis);
-                cc.log();
+               // cc.log(touchPosDis);
+               // cc.log();
             },
             onTouchMoved:function(touch,event){
                 var target=event.getCurrentTarget();
@@ -164,9 +204,9 @@ var HelloWorldLayer = cc.Layer.extend({
         //
         var self=this;
         var r=cc.degreesToRadians(this.car.rotation);
-        var dy=Math.cos(r);
-        this.car.x+= 0.2*Math.sin(r);
-        this.car.y+= 0.2*dy;//(dy>0?dy:(-1)*dy);
+        //var dy=Math.cos(r);
+        this.car.x+= 0.2*Math.sin(r)*self.up;
+        this.car.y+= 0.2*Math.cos(r)*self.up;//(dy>0?dy:(-1)*dy);
         this.car.rotation+=0.01*self.wheel/18;
         if (this.car.x>cc.winSize.width+this.car.height) {
             this.car.x=0-this.car.height;
@@ -181,7 +221,7 @@ var HelloWorldLayer = cc.Layer.extend({
             this.car.y=cc.winSize.height+this.car.height;
         };
        
-        cc.log(cc.winSize);
+      //  cc.log(cc.winSize);
        // this.car.y+=0.2;
     }
 });
@@ -193,4 +233,5 @@ var HelloWorldScene = cc.Scene.extend({
         this.addChild(layer);
     }
 });
+
 
