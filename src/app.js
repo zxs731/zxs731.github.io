@@ -8,6 +8,7 @@ var HelloWorldLayer = cc.Layer.extend({
     rightWheel:0,
     wheel:0,
     up:1,
+    start:1,
     ctor:function () {
         //////////////////////////////
         // 1. super init first
@@ -50,14 +51,37 @@ var HelloWorldLayer = cc.Layer.extend({
         this.addChild(helloLabel, 5);
 */
         // add "HelloWorld" splash screen"
+
+        var self=this;
         //button
-        var btn = new ccui.CheckBox();
+        var run = new ccui.CheckBox(res.Run,res.Stop);
+        run.setTouchEnabled(true);
+        //btn.setPressedActionEnabled(false);
+        //btn.loadTextures(res.Up,res.Down,res.Down);
+        run.x = 30;
+        run.y = 100;
+        run.addEventListener(function (sender, type) {
+ 
+          switch (type) {
+              case ccui.CheckBox.EVENT_SELECTED:
+              self.start=(-1)*self.start;
+              cc.log(self.start);
+                  break;
+              case ccui.CheckBox.EVENT_UNSELECTED:
+              self.start=(-1)*self.start;
+                  break;
+              default:
+                  break;
+          }
+        
+      }, this);
+
+        var btn = new ccui.CheckBox(res.Up,res.Down);
         btn.setTouchEnabled(true);
         //btn.setPressedActionEnabled(false);
-        btn.loadTextures(res.Up,"","");
+        //btn.loadTextures(res.Up,res.Down,res.Down);
         btn.x = 100;
         btn.y = 100;
-        var self=this;
         /*
         btn.addClickEventListener(function(){
             self.up=(-1)*self.up;
@@ -89,12 +113,12 @@ var HelloWorldLayer = cc.Layer.extend({
       }, this);
 
         this.addChild(btn);
-
+this.addChild(run);
         //road
         this.road = new cc.Sprite(res.Road_png);
         this.road.attr({
-            x: size.width / 3*2,
-            y: size.height / 3*2,
+            x: size.width / 2,
+            y: size.height / 2,
             scale: 1,
             rotation: 0
         });
@@ -203,11 +227,20 @@ var HelloWorldLayer = cc.Layer.extend({
     update:function(dt){
         //
         var self=this;
+        if (self.start==-1) {
+            return;
+        };
         var r=cc.degreesToRadians(this.car.rotation);
         //var dy=Math.cos(r);
-        this.car.x+= 0.2*Math.sin(r)*self.up;
-        this.car.y+= 0.2*Math.cos(r)*self.up;//(dy>0?dy:(-1)*dy);
-        this.car.rotation+=0.01*self.wheel/18;
+        if (self.up==1) {
+            this.car.x+= 0.2*Math.sin(r);
+            this.car.y+= 0.2*Math.cos(r);
+        }else{
+            this.car.x+= -0.2*Math.sin(r);
+            this.car.y+= -0.2*Math.cos(r);//(dy>0?dy:(-1)*dy);
+        };
+        
+        this.car.rotation+=self.up*0.01*self.wheel/18;
         if (this.car.x>cc.winSize.width+this.car.height) {
             this.car.x=0-this.car.height;
         };

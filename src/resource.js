@@ -5,7 +5,9 @@ var res = {
     Car_png:"res/car4.png",
     Road_png:"res/road1.png",
     Up:"res/up.png",
-    Down:"res/down.png"
+    Down:"res/down.png",
+    Run:"res/start.png",
+    Stop:"res/stop.png"
 };
 
 var g_resources = [];
