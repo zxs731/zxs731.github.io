@@ -1,6 +1,8 @@
 
 var HelloWorldLayer = cc.Layer.extend({
-    road:null,
+    road1:null,
+    road2:null,
+    road3:null,
     car:null,
     sprite:null,
     da:0,
@@ -9,6 +11,7 @@ var HelloWorldLayer = cc.Layer.extend({
     wheel:0,
     up:1,
     start:1,
+    roadIndex:0,
     ctor:function () {
         //////////////////////////////
         // 1. super init first
@@ -114,15 +117,60 @@ var HelloWorldLayer = cc.Layer.extend({
 
         this.addChild(btn);
 this.addChild(run);
-        //road
-        this.road = new cc.Sprite(res.Road_png);
-        this.road.attr({
+
+        var changeBtn = new ccui.CheckBox(res.Change,res.Change);
+        changeBtn.setTouchEnabled(true);
+        //changeBtn.setPressedActionEnabled(true);
+        //btn.loadTextures(res.Up,res.Down,res.Down);
+        changeBtn.x = 30;
+        changeBtn.y = 400;
+        
+        changeBtn.addClickEventListener(function(){
+           if (self.roadIndex>2) {
+            self.roadIndex=0;
+           }
+            self.roadIndex+=1;
+           
+           cc.log(self.roadIndex);
+           self.road1.setVisible(self.roadIndex%3==0);
+           self.road2.setVisible(self.roadIndex%3==1);
+           self.road3.setVisible(self.roadIndex%3==2);
+        },this);
+        this.addChild(changeBtn);
+
+        //road1
+        this.road1 = new cc.Sprite(res.Road1_png);
+        this.road1.attr({
             x: size.width / 2,
             y: size.height / 2,
             scale: 1,
             rotation: 0
         });
-        this.addChild(this.road, 0);
+        this.road1.setVisible(true);
+        this.addChild(this.road1, 0);
+        //road2
+        this.road2 = new cc.Sprite(res.Road2_png);
+        this.road2.attr({
+            x: size.width / 2,
+            y: size.height / 2,
+            scale: 1,
+            rotation: 0
+        });
+        this.road2.setVisible(false);
+        this.addChild(this.road2, 0);
+        //road3
+        this.road3 = new cc.Sprite(res.Road3_png);
+        this.road3.attr({
+            x: size.width / 2,
+            y: size.height / 2,
+            scale: 1,
+            rotation: 0
+        });
+        this.road3.setVisible(false);
+        this.addChild(this.road3, 0);
+        //
+
+
         //car
         this.car = new cc.Sprite(res.Car_png);
         this.car.attr({
@@ -131,7 +179,8 @@ this.addChild(run);
             scale: 1,
             rotation: 0
         });
-        this.car.x=this.road.x+this.road.width/2-this.car.width;
+        //this.car.x=this.road.x+this.road.width/2-this.car.width;
+        this.car.x=size.width / 2;
         this.addChild(this.car, 0);
         //wheel
         this.sprite = new cc.Sprite(res.Wheel_png);
@@ -240,7 +289,7 @@ this.addChild(run);
             this.car.y+= -0.2*Math.cos(r);//(dy>0?dy:(-1)*dy);
         };
         
-        this.car.rotation+=self.up*0.01*self.wheel/18;
+        this.car.rotation+=self.up*0.01*self.wheel/21.6;
         if (this.car.x>cc.winSize.width+this.car.height) {
             this.car.x=0-this.car.height;
         };
