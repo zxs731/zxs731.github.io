@@ -7,8 +7,18 @@
     <link rel="stylesheet" href="TemplateData/style.css">
     <link rel="shortcut icon" href="TemplateData/favicon.ico" />
     <script src="TemplateData/UnityProgress.js"></script>
+    <script>
+    function Reset()
+    {
+        var canvas = document.getElementById("#canvas");//获取#canvas
+        canvas.height=  document.documentElement.clientHeight;//获取body可见区域高度
+        canvas.width =  document.documentElement.clientWidth;//获取body可见区域高度
+
+    }
+    </script>
   </head>
-  <body class="template">
+  <body class="template" onresize="Reset()" ,scroll= no, style="overflow:hidden">
+    <div id="gameContainer" style="width: 100%; height: 100%;margin:auto" ></div>        
     <div class="template-wrap clear">
       <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="960px" width="600px"></canvas>
       <br>
