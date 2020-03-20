@@ -153,6 +153,9 @@ function getPicDiv(str){
 	var bordercolor="deepskyblue";
 	if (str=="A") 
 		bordercolor="darkorange";
+	else if (str=="C") {
+		bordercolor="red";
+	};
 	var div ='<div style="display: inline-block;background: transparent url(2.jpg) no-repeat scroll -'+numx+'px -'+numy+'px;height: 40px;width: 40px;border-radius: 30px;vertical-align: middle;border-style:outset;border-color:'+bordercolor+'"></div>';
 	return div;
 }
