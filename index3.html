@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans"> 
+<head>
+ <meta charset='utf-8'>
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+   <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+     <meta name="HandheldFriendly" content="true">
+    <!-- 微软的老式浏览器 -->
+     <meta name="MobileOptimized" content="320">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+     <!-- QQ强制竖屏 -->
+     <meta name="x5-orientation" content="portrait">
+     <!-- UC强制全屏 -->
+     <meta name="full-screen" content="yes">
+     <!-- QQ强制全屏 -->
+     <meta name="x5-fullscreen" content="true">
+     <!-- UC应用模式 -->
+     <meta name="browsermode" content="application">
+     <!-- QQ应用模式 -->
+     <meta name="x5-page-mode" content="app">
+	<title>图形计算与推理</title>
+	    <style type="text/css">
+    tr:hover{background-color:#DDECF3;}      /* 通过CSS实现鼠标悬停高亮色 */
+    .contentTitle{
+    background-color:beige;padding:15px;font-size:18px;
+    }
+    .contentRow{
+    padding:5px;font-family:Courier;font-size:20px;letter-spacing:5px;text-indent:20px;display: inline-block;vertical-align:middle;
+    }
+    td{
+    height: 51px;
+    }
+    </style>
+	<script type="text/javascript">
+
+
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; 
+}
+
+function getExpressions(){
+m=[];
+m[0]="A";
+m[1]="B";
+m[2]="C";
+n=[];
+n[0]="+";
+n[1]="+";
+n[2]="-";
+var maxA=10;
+var maxB=10;
+var maxN=4;
+var A=getRandomInt(1, maxA);
+
+var B=getRandomInt(1, maxB);
+
+var C=getRandomInt(1, maxB);
+
+
+var na=getRandomInt(2, maxN);
+ex="";
+for(var i=1;i<=na-1;i++){ ex+=" "+m[getRandomInt(0,2)]+" "+n[getRandomInt(0,3)];}
+ex+=" "+m[getRandomInt(0,2)];
+
+
+ex2="";
+for(var i=1;i<=na-1;i++){ ex2+=" "+m[getRandomInt(0,2)]+" "+n[getRandomInt(0,3)];}
+ex2+=" "+m[getRandomInt(0,2)];
+
+
+while(eval(ex)<0 
+||eval(ex2)<0 
+|| eval(ex)==eval(ex2) 
+|| ex.indexOf("A")==-1 
+||	ex.indexOf("B")==-1
+|| ex2.indexOf("A")==-1 
+||	ex2.indexOf("B")==-1){
+	A=getRandomInt(1, maxA);
+
+	B=getRandomInt(1, maxB);
+ 	na=getRandomInt(2, maxN);
+	ex="";
+	for(var i=1;i<=na-1;i++){ ex+=" "+m[getRandomInt(0,2)]+" "+n[getRandomInt(0,3)];}
+	ex+=" "+m[getRandomInt(0,2)];
+
+
+	ex2="";
+	for(var i=1;i<=na-1;i++){ ex2+=" "+m[getRandomInt(0,2)]+" "+n[getRandomInt(0,3)];}
+	ex2+=" "+m[getRandomInt(0,2)];	
+
+	
+	}
+ return {"ex":ex+" = "+eval(ex),"ex2":ex2+" = "+eval(ex2),"A":A,"B":B};
+}
+
+function createRow(que,i){
+	var pics=getABCPics();
+	var picA=pics.A;
+	var picB=pics.B;
+	addNewTr("<div class='contentTitle' >"+"第 "+i+" 题"+"</div>");
+	addNewTr("<div class='contentRow' >"+que.ex.replace(new RegExp('A','g'),picA).replace(new RegExp('B','g'),picB)+"</div>");
+	addNewTr("<div class='contentRow'>"+que.ex2.replace(new RegExp('A','g'),picA).replace(new RegExp('B','g'),picB)+"</div>");
+	
+	var rowId=i;
+	var answer = "A="+que.A+" , B="+que.B+" ";
+	addNewTr("<div  class='contentRow'>"+picA+"&nbsp;=&nbsp;<input id='A"+rowId+"' type='text' style='width:30px'/>&nbsp;,&nbsp;"+picB+"&nbsp;=&nbsp;<input id='B"+rowId+"' type='text'  style='width:30px'/> &nbsp;");
+	addNewTr("<div  class='contentRow'>"+"<input  type='button' value='提交' onclick='check(\""+rowId+"\",\""+que.A+"\",\""+que.B+"\");'/>"+"<span id='mark"+rowId+"'></span></div>");
+	//addNewTr("");
+}
+function check(rowId,answerA,answerB){
+	var answerAVal = document.getElementById("A"+rowId).value;
+	var answerBVal = document.getElementById("B"+rowId).value;
+	if (answerA==answerAVal && answerB==answerBVal) {
+		document.getElementById("mark"+rowId).innerHTML="<span style='color:green;font-size:14px'> √ 恭喜你回答正确！</span>";
+	}else{
+		document.getElementById("mark"+rowId).innerHTML="<span style='color:red;font-size:14px'> X 错误，再试一次吧！</span>";
+	}
+}
+function addNewTr(str){
+	var editTable=document.getElementById("tbody");
+	var tr4=document.createElement("tr");
+	var td4=document.createElement("td");
+	td4.innerHTML=str;
+	tr4.appendChild(td4);
+	editTable.appendChild(tr4);
+}
+function loadQuo(){
+	
+	var s="";
+for(var i=1;i<21;i++){
+s+="第 "+i+" 题：\r\n";
+var a=getExpressions();
+s+=a.ex+"\r\n";
+s+=a.ex2+"\r\n";
+s+=a.ex3+"\r\n";
+s+="A=(  ), B=(  ), C=(  )"+"\r\n";
+s+="-------------------------\r\n";
+ createRow(a,i);
+}
+console.log(s);
+}
+function getPicDiv(str){
+	var numx = getRandomInt(0, 10)*40;
+	var numy = getRandomInt(0, 10)*40;
+	var bordercolor="deepskyblue";
+	if (str=="A") 
+		bordercolor="darkorange";
+	var div ='<div style="display: inline-block;background: transparent url(2.jpg) no-repeat scroll -'+numx+'px -'+numy+'px;height: 40px;width: 40px;border-radius: 30px;vertical-align: middle;border-style:outset;border-color:'+bordercolor+'"></div>';
+	return div;
+}
+function getABCPics(){
+	var picA=getPicDiv('A');
+	var picB=getPicDiv('B');
+	var picC=getPicDiv('C');
+	while (picA==picB || picA==picC || picB==picC) {
+	 picA=getPicDiv();
+	 picB=getPicDiv();
+	 picC=getPicDiv();
+	};
+	return {"A":picA,"B":picB,"C":picC};
+}
+	</script>
+</head>
+<body onload="loadQuo();">
+	 <table id="editTable"  width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="gray" style="border-collapse:collapse;">
+		 <tr>
+			<th><div style='padding:5px;font-size: 18px'>图形推理计算</div></th>
+		 </tr>
+		 <tbody id="tbody">
+ 
+		 </tbody>
+	</table>
+</body>
+</html>
