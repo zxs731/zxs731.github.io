@@ -111,7 +111,7 @@ function createRow(que,i){
 	
 	var rowId=i;
 	var answer = "A="+que.A+" , B="+que.B+" ";
-	addNewTr("<div  class='contentRow'>"+picA+"&nbsp;=&nbsp;<input id='A"+rowId+"' type='text' style='width:30px'/>&nbsp;,&nbsp;"+picB+"&nbsp;=&nbsp;<input id='B"+rowId+"' type='text'  style='width:30px'/> &nbsp;");
+	addNewTr("<div  class='contentRow'>"+picA+"&nbsp;=&nbsp;<input id='A"+rowId+"' type='text' style='width:30px'/>,"+picB+"&nbsp;=&nbsp;<input id='B"+rowId+"' type='text'  style='width:30px'/> &nbsp;");
 	addNewTr("<div  class='contentRow'>"+"<input  type='button' value='提交' onclick='check(\""+rowId+"\",\""+que.A+"\",\""+que.B+"\");'/>"+"<span id='mark"+rowId+"'></span></div>");
 	//addNewTr("");
 }
