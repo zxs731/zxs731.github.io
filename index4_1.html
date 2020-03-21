@@ -158,11 +158,16 @@ function check(rowId,answerA,answerB,answerC){
 	var answerBVal = document.getElementById("B"+rowId).value;
 	var answerCVal = document.getElementById("C"+rowId).value;
 	if (answerA==answerAVal && answerB==answerBVal&& answerC==answerCVal) {
-		document.getElementById("mark"+rowId).innerHTML="<span style='color:green;font-size:14px'> √ 恭喜你回答正确！</span>";
+		document.getElementById("mark"+rowId).innerHTML="<span style='color:green;font-size:14px'> √ 恭喜你回答正确！</span>"
+		+changeLevel("http://zxs731.github.io/index4_2.html","升一级");
 	}else{
-		document.getElementById("mark"+rowId).innerHTML="<span style='color:red;font-size:14px'> X 错误，再试一次吧！</span>";
+		document.getElementById("mark"+rowId).innerHTML="<span style='color:red;font-size:14px'> X 错误，再试一次吧！</span>"
+			+changeLevel("http://zxs731.github.io/index4_0.html","简单点");
 	}
 }
+function changeLevel(url,level){
+	return "<a href='"+url+"' style='color:green;font-size:14px'>"+level+"</a>";
+};
 function getPicDiv(str){
 	var numx = getRandomInt(0, 10)*40;
 	var numy = getRandomInt(0, 10)*40;
