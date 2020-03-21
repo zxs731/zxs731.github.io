@@ -120,11 +120,16 @@ function check(rowId,answerA,answerB){
 	var answerAVal = document.getElementById("A"+rowId).value;
 	var answerBVal = document.getElementById("B"+rowId).value;
 	if (answerA==answerAVal && answerB==answerBVal) {
-		document.getElementById("mark"+rowId).innerHTML="<span style='color:green;font-size:14px'> √ 恭喜你回答正确！</span>";
+		document.getElementById("mark"+rowId).innerHTML="<span style='color:green;font-size:14px'> √ 恭喜你回答正确！</span>"
+		+changeLevel("http://zxs731.github.io/index3_5.html","升一级");
 	}else{
-		document.getElementById("mark"+rowId).innerHTML="<span style='color:red;font-size:14px'> X 错误，再试一次吧！</span>";
+		document.getElementById("mark"+rowId).innerHTML="<span style='color:red;font-size:14px'> X 错误，再试一次吧！</span>"
+			+changeLevel("http://zxs731.github.io/index3_3.html","简单点");
 	}
 }
+function changeLevel(url,level){
+	return "<a href='"+url+"' style='color:green;font-size:14px'>"+level+"</a>";
+};
 function addNewTr(str){
 	var editTable=document.getElementById("tbody");
 	var tr4=document.createElement("tr");
