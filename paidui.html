@@ -105,9 +105,10 @@ function addNewTr(str){
 function loadQuo(){
 	var s="";
 for(var i=1;i<11;i++){
+ var s=getRed(0,4);
  var it=g(getRed(5,20),getRed(5,20)
-,getRed(2,5),getRed(0,4));
- createRow(it,i);
+,getRed(2,5),s);
+ createRow(it,s);
 }
 console.log(s);
 }
