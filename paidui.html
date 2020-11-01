@@ -48,7 +48,7 @@ var _q="";
 if (type==1) {
 _typeTxt="甲在乙前。";
 _q=_qianTxt+_houTxt+_typeTxt+_jianGeTxt+_qTxt;
-_answer=m.toString()+"+"+n.toString()+k.toString();
+_answer=m.toString()+"+"+n.toString()+"+"+k.toString();
 _answer=_answer+"="+eval(_answer);
 }else if (type==2){
 _typeTxt="乙在甲前。";
@@ -59,9 +59,9 @@ _answer=_answer+"="+eval(_answer)+"(人)";
 _typeTxt="乙在甲前。";
 _qTxt="甲乙之间最多间隔几人？";
 _q=_qianTxt+_houTxt+_typeTxt+_qTxt;
-_answer="("+m.toString()+"<"+n.toString()
+_answer=eval(m.toString()+"<"+n.toString()
 +"?"+m.toString()+":"
-+n.toString()+")-1-1";
++n.toString())+"-1-1";
 _answer=_answer+"="+eval(_answer);
 };
 return {
