@@ -37,83 +37,45 @@
     }
     </style>
 	<script type="text/javascript">
-
-
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; 
-}
-
-function getExpressions(){
-m=[];
-m[0]="A";
-m[1]="B";
-m[2]="C";
-n=[];
-n[0]="+";
-n[1]="+";
-n[2]="-";
-var maxA=10;
-var maxB=10;
-var maxN=4;
-var A=getRandomInt(1, maxA);
-
-var B=getRandomInt(1, maxB);
-
-var C=getRandomInt(1, maxB);
-
-
-var na=getRandomInt(2, maxN);
-ex="";
-for(var i=1;i<=na-1;i++){ ex+=" "+m[getRandomInt(0,2)]+" "+n[getRandomInt(0,3)];}
-ex+=" "+m[getRandomInt(0,2)];
-
-
-ex2="";
-for(var i=1;i<=na-1;i++){ ex2+=" "+m[getRandomInt(0,2)]+" "+n[getRandomInt(0,3)];}
-ex2+=" "+m[getRandomInt(0,2)];
-
-
-while(eval(ex)<0 
-||eval(ex2)<0 
-|| eval(ex)==eval(ex2) 
-|| ex.indexOf("A")==-1 
-||	ex.indexOf("B")==-1
-|| ex2.indexOf("A")==-1 
-||	ex2.indexOf("B")==-1){
-	A=getRandomInt(1, maxA);
-
-	B=getRandomInt(1, maxB);
- 	na=getRandomInt(2, maxN);
-	ex="";
-	for(var i=1;i<=na-1;i++){ ex+=" "+m[getRandomInt(0,2)]+" "+n[getRandomInt(0,3)];}
-	ex+=" "+m[getRandomInt(0,2)];
-
-
-	ex2="";
-	for(var i=1;i<=na-1;i++){ ex2+=" "+m[getRandomInt(0,2)]+" "+n[getRandomInt(0,3)];}
-	ex2+=" "+m[getRandomInt(0,2)];	
-
-	
-	}
- return {"ex":ex+" = "+eval(ex),"ex2":ex2+" = "+eval(ex2),"A":A,"B":B};
-}
+function g(m,n,k,type){
+var _qianTxt="甲、乙二人排在一个队伍里。从前往后数甲排第m。".replace("m",m);
+var _houTxt="从后往前数乙排第n。".replace("n",n);
+var _jianGeTxt="甲、乙之间间隔k人。".replace("k",k);
+var _typeTxt="甲在乙前。";
+var _qTxt="问排队的总人数是多少人？";
+var _answer="";
+var _q="";
+if (type==1) {
+_typeTxt="甲在乙前。";
+_q=_qianTxt+_houTxt+_typeTxt+_jianGeTxt+_qTxt;
+_answer=m.toString()+"+"+n.toString()+k.toString();
+_answer=_answer+"="+eval(_answer);
+}else if (type==2){
+_typeTxt="乙在甲前。";
+_q=_qianTxt+_houTxt+_typeTxt+_jianGeTxt+_qTxt;
+_answer=m.toString()+"+"+n.toString()+"-("+k.toString()+"+1+1)";
+_answer=_answer+"="+eval(_answer)+"(人)";
+  }else if (type==3) {
+_typeTxt="乙在甲前。";
+_qTxt="甲乙之间最多间隔几人？";
+_q=_qianTxt+_houTxt+_typeTxt+_jianGeTxt+_qTxt;
+_answer=m.toString()+"+"+n.toString()+"-("+k.toString()+"+1+1)";
+_answer=_answer+"="+eval(_answer);
+};
+return {
+qu:_q,
+ans:_answer
+};
+};
+function getRed(m,n){
+  return Math.floor(Math.random()*(m-n+1)+n);
+};
 
 function createRow(que,i){
-	var pics=getABCPics();
-	var picA=pics.A;
-	var picB=pics.B;
+
 	addNewTr("<div class='contentTitle' >"+"第 "+i+" 题"+"</div>");
-	addNewTr("<div class='contentRow' >"+que.ex.replace(new RegExp('A','g'),picA).replace(new RegExp('B','g'),picB)+"</div>");
-	addNewTr("<div class='contentRow'>"+que.ex2.replace(new RegExp('A','g'),picA).replace(new RegExp('B','g'),picB)+"</div>");
-	
-	var rowId=i;
-	var answer = "A="+que.A+" , B="+que.B+" ";
-	addNewTr("<div  class='contentRow'>"+picA+"&nbsp;=&nbsp;<input id='A"+rowId+"' type='text' style='width:30px'/>,"+picB+"&nbsp;=&nbsp;<input id='B"+rowId+"' type='text'  style='width:30px'/> &nbsp;");
-	addNewTr("<div  class='contentRow'>"+"<input  type='button' value='提交' onclick='check(\""+rowId+"\",\""+que.A+"\",\""+que.B+"\");'/>"+"<span id='mark"+rowId+"'></span></div>");
-	//addNewTr("");
+	addNewTr("<div class='contentRow' >"+que.qu+"</div>");
+	addNewTr("");
 }
 function check(rowId,answerA,answerB){
 	var answerAVal = document.getElementById("A"+rowId).value;
@@ -138,17 +100,10 @@ function addNewTr(str){
 	editTable.appendChild(tr4);
 }
 function loadQuo(){
-	
 	var s="";
-for(var i=1;i<21;i++){
-s+="第 "+i+" 题：\r\n";
-var a=getExpressions();
-s+=a.ex+"\r\n";
-s+=a.ex2+"\r\n";
-s+=a.ex3+"\r\n";
-s+="A=(  ), B=(  ), C=(  )"+"\r\n";
-s+="-------------------------\r\n";
- createRow(a,i);
+for(var i=1;i<11;i++){
+ var it=g(getRed(5,20),getRed(5,20),getRed(2,5),2);
+ createRow(it,i);
 }
 console.log(s);
 }
