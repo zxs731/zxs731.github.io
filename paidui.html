@@ -77,7 +77,7 @@ function createRow(que,i){
 
 	addNewTr("<div class='contentTitle' >"+"第 "+i+" 题"+"</div>");
 	addNewTr("<div class='contentRow' >"+que.qu+"</div>");
-	addNewTr("<div class='contentRow' style='display:none' ondblclick='JavaScript:this.style.display="";'>"+que.ans+"</div>");
+	addNewTr("<div class='contentRow' style='display:none' ondblclick='JavaScript:this.style.display=\"\";'>"+que.ans+"</div>");
 	addNewTr("");
 }
 function check(rowId,answerA,answerB){
