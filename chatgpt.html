@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+<script>
+function sendReq(){
+var c=document.getElementById("content").value;
+var data = JSON.stringify({
+  "model": "text-davinci-003",
+  "prompt": c,
+  "temperature": 0.9,
+  "max_tokens": 150,
+  "top_p": 1,
+  "frequency_penalty": 0,
+  "presence_penalty": 0.6,
+  "stop": [
+    " Human:",
+    " AI:"
+  ]
+});
+
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = false;
+
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    console.log(this.responseText);
+var txt=JSON.parse(this.responseText).choices[0].text;
+document.getElementById("resid").value=txt;
+  }
+});
+
+xhr.open("POST", "https://api.openai.com/v1/completions");
+xhr.setRequestHeader("Authorization", "Bearer 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");
+xhr.setRequestHeader("Content-Type", "application/json");
+
+xhr.send(data);
+}
+  </script>
+      <title>ChatGPT</title>
+  </head>
+    <body>
+      <form action=""> 
+         你的要求：<textarea name="cid" id="content" cols="30" rows="2" style="width:100%"></textarea><br/><br/>
+          <input type="button" value="提交" onclick="sendReq()"/>          <input type="reset" value="重置" /><br/><br/>
+自动产生的结果：<textarea name="resid" id="resid" cols="30" rows="50" style="width:100%"></textarea>
+      </form>
+  </body>
+</html>
